@@ -1,3 +1,35 @@
+Changes in version 0.4.8.5 - 2023-08-30
+  Quick second release after the first stable few days ago fixing minor
+  annoying bugfixes creating log BUG stacktrace. We also fix BSD compilation
+  failures and PoW unit test.
+
+  o Minor features (fallbackdir):
+    - Regenerate fallback directories generated on August 30, 2023.
+
+  o Minor features (geoip data):
+    - Update the geoip files to match the IPFire Location Database, as
+      retrieved on 2023/08/30.
+
+  o Minor bugfix (NetBSD, compilation):
+    - Fix compilation issue on NetBSD by avoiding an unnecessary
+      dependency on "huge" page mappings in Equi-X. Fixes bug 40843;
+      bugfix on 0.4.8.1-alpha.
+
+  o Minor bugfix (NetBSD, testing):
+    - Fix test failures in "crypto/hashx" and "slow/crypto/equix" on
+      x86_64 and aarch64 NetBSD hosts, by adding support for
+      PROT_MPROTECT() flags. Fixes bug 40844; bugfix on 0.4.8.1-alpha.
+
+  o Minor bugfixes (conflux):
+    - Demote a relay-side warn about too many legs to ProtocolWarn, as
+      there are conditions that it can briefly happen during set
+      construction. Also add additional set logging details for all
+      error cases. Fixes bug 40841; bugfix on 0.4.8.1-alpha.
+    - Prevent non-fatal assert stacktrace caused by using conflux sets
+      during their teardown process. Fixes bug 40842; bugfix
+      on 0.4.8.1-alpha.
+
+
 Changes in version 0.4.8.4 - 2023-08-23
   Finally, this is the very first stable release of the 0.4.8.x series making
   Proof-of-Work (prop#327) and Conflux (prop#329) available to the entire
