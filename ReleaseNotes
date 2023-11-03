@@ -2,6 +2,23 @@ This document summarizes new features and bugfixes in each stable
 release of Tor. If you want to see more detailed descriptions of the
 changes in each development snapshot, see the ChangeLog file.
 
+Changes in version 0.4.7.16 - 2023-11-03
+  We are releasing today a fix for a high security issue, TROVE-2023-004, that
+  is affecting relays. Please upgrade as soon as posssible.
+
+  o Major bugfixes (TROVE-2023-004, relay):
+    - Mitigate an issue when Tor compiled with OpenSSL can crash during
+      handshake with a remote relay. Fixes bug 40874; bugfix
+      on 0.2.7.2-alpha.
+
+  o Minor features (fallbackdir):
+    - Regenerate fallback directories generated on November 03, 2023.
+
+  o Minor features (geoip data):
+    - Update the geoip files to match the IPFire Location Database, as
+      retrieved on 2023/11/03.
+
+
 Changes in version 0.4.7.15 - 2023-09-18
   This version contains an important fix for onion service regarding congestion
   control and its reliability. Apart from that, very minor bugfixes. We
