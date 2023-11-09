@@ -2,6 +2,35 @@ This document summarizes new features and bugfixes in each stable
 release of Tor. If you want to see more detailed descriptions of the
 changes in each development snapshot, see the ChangeLog file.
 
+Changes in version 0.4.8.9 - 2023-11-09
+  This is another security release fixing a high severity bug affecting onion
+  services which is tracked by TROVE-2023-006. We are also releasing a guard
+  major bugfix as well. If you are an onion service operator, we strongly
+  recommend to update as soon as possible.
+
+  o Major bugfixes (guard usage):
+    - When Tor excluded a guard due to temporary circuit restrictions,
+      it considered *additional* primary guards for potential usage by
+      that circuit. This could result in more than the specified number
+      of guards (currently 2) being used, long-term, by the tor client.
+      This could happen when a Guard was also selected as an Exit node,
+      but it was exacerbated by the Conflux guard restrictions. Both
+      instances have been fixed. Fixes bug 40876; bugfix
+      on 0.3.0.1-alpha.
+
+  o Major bugfixes (onion service, TROVE-2023-006):
+    - Fix a possible hard assert on a NULL pointer when recording a
+      failed rendezvous circuit on the service side for the MetricsPort.
+      Fixes bug 40883; bugfix on 0.4.8.1-alpha
+
+  o Minor features (fallbackdir):
+    - Regenerate fallback directories generated on November 09, 2023.
+
+  o Minor features (geoip data):
+    - Update the geoip files to match the IPFire Location Database, as
+      retrieved on 2023/11/09.
+
+
 Changes in version 0.4.8.8 - 2023-11-03
   We are releasing today a fix for a high security issue, TROVE-2023-004, that
   is affecting relays. Also a few minor bugfixes detailed below. Please upgrade
