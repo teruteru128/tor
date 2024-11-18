@@ -399,19 +399,9 @@ test-network-run: need-chutney-path test-driver $(TESTING_TOR_BINARY) src/tools/
 		echo "Running IPv4 flavors: $(ipv4_flavors)."; \
 		flavors="$$flavors $(ipv4_flavors)"; \
 	fi; \
-	test_network_ipv6=false; \
-	if test -n "$(ipv6_flavors)" || \
-	   test -n "$(ipv6_mixed_flavors)"; then \
-		test_network_ipv6=true; \
-	fi; \
 	if test -n "$(ipv6_flavors)"; then \
-		if test "$$test_network_ipv6" = "true"; then \
-			echo "Running IPv6 flavors: $(ipv6_flavors)."; \
-			flavors="$$flavors $(ipv6_flavors)"; \
-		else \
-			echo "Skipping IPv6 flavors: $(ipv6_flavors)."; \
-			skip_flavors="$$skip_flavors $(ipv6_flavors)"; \
-		fi; \
+		echo "Running IPv6 flavors: $(ipv6_flavors)."; \
+		flavors="$$flavors $(ipv6_flavors)"; \
 	fi; \
 	test_network_mixed=false; \
 	if test -n "$(mixed_flavors)" || \
@@ -432,8 +422,7 @@ test-network-run: need-chutney-path test-driver $(TESTING_TOR_BINARY) src/tools/
 		fi; \
 	fi; \
 	if test -n "$(ipv6_mixed_flavors)"; then \
-		if test "$$test_network_ipv6" = "true" && \
-		   test "$$test_network_mixed" = "true"; then \
+		if test "$$test_network_mixed" = "true"; then \
 			echo "Running IPv6 mixed flavors:" \
 			  "$(ipv6_mixed_flavors)."; \
 			flavors="$$flavors $(ipv6_mixed_flavors)"; \
