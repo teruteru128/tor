@@ -462,8 +462,11 @@ conflux_get_circ_rtt(const circuit_t *circ)
 {
   if (circ->conflux) {
     conflux_leg_t *leg = conflux_get_leg(circ->conflux, circ);
-    tor_assert(leg);
-    return leg->circ_rtts_usec;
+    if (BUG(!leg)) {
+      return 0;
+    } else {
+      return leg->circ_rtts_usec;
+    }
   } else {
     return 0;
   }
