@@ -334,6 +334,22 @@ hs_cache_lookup_as_dir(uint32_t version, const char *query,
   return found;
 }
 
+/** Using the given directory identifier, lookup the descriptor in our cache
+ * and if present, increment the downloaded counter. This is done when the
+ * directory connection fetching this descriptor is closed. */
+void
+hs_cache_mark_dowloaded_as_dir(const hs_ident_dir_conn_t *ident)
+{
+  hs_cache_dir_descriptor_t *entry;
+
+  tor_assert(ident);
+
+  entry = lookup_v3_desc_as_dir(ident->blinded_pk.pubkey);
+  if (entry) {
+    entry->n_downloaded++;
+  }
+}
+
 /** Clean all directory caches using the current time now. */
 void
 hs_cache_clean_as_dir(time_t now)

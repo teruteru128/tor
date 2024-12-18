@@ -13,6 +13,7 @@
 
 #include "feature/hs/hs_common.h"
 #include "feature/hs/hs_descriptor.h"
+#include "feature/hs/hs_ident.h"
 #include "feature/rend/rendcommon.h"
 #include "feature/nodelist/torcert.h"
 
@@ -68,6 +69,10 @@ typedef struct hs_cache_dir_descriptor_t {
   /** Encoded descriptor which is basically in text form. It's a NUL terminated
    * string thus safe to strlen(). */
   char *encoded_desc;
+  /** How many times this descriptor has been downloaded. We use this as an
+   * heuristic for the OOM cache cleaning. It is very large so we avoid an kind
+   * of possible wrapping. */
+  uint64_t n_downloaded;
 } hs_cache_dir_descriptor_t;
 
 /* Public API */
@@ -92,6 +97,7 @@ unsigned int hs_cache_get_max_descriptor_size(void);
 int hs_cache_store_as_dir(const char *desc);
 int hs_cache_lookup_as_dir(uint32_t version, const char *query,
                            const char **desc_out);
+void hs_cache_mark_dowloaded_as_dir(const hs_ident_dir_conn_t *ident);
 
 const hs_descriptor_t *
 hs_cache_lookup_as_client(const struct ed25519_public_key_t *key);
