@@ -90,7 +90,7 @@ test_directory(void *arg)
     tt_str_op(desc_out, OP_EQ, desc1_str);
     /* Tell our OOM to run and to at least remove a byte which will result in
      * removing the descriptor from our cache. */
-    oom_size = hs_cache_handle_oom(time(NULL), 1);
+    oom_size = hs_cache_handle_oom(1);
     tt_int_op(oom_size, OP_GE, 1);
     ret = hs_cache_lookup_as_dir(3, helper_get_hsdir_query(desc1), NULL);
     tt_int_op(ret, OP_EQ, 0);
@@ -127,7 +127,7 @@ test_directory(void *arg)
                                  NULL);
     tt_int_op(ret, OP_EQ, 0);
     /* Cleanup our entire cache. */
-    oom_size = hs_cache_handle_oom(time(NULL), 1);
+    oom_size = hs_cache_handle_oom(1);
     tt_int_op(oom_size, OP_GE, 1);
     hs_descriptor_free(desc_zero_lifetime);
     tor_free(desc_zero_lifetime_str);

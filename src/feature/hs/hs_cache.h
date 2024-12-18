@@ -87,7 +87,7 @@ hs_cache_max_entry_lifetime(void)
 void hs_cache_init(void);
 void hs_cache_free_all(void);
 void hs_cache_clean_as_dir(time_t now);
-size_t hs_cache_handle_oom(time_t now, size_t min_remove_bytes);
+size_t hs_cache_handle_oom(size_t min_remove_bytes);
 
 unsigned int hs_cache_get_max_descriptor_size(void);
 
@@ -150,6 +150,9 @@ typedef struct hs_cache_client_descriptor_t {
 } hs_cache_client_descriptor_t;
 
 STATIC size_t cache_clean_v3_as_dir(time_t now, time_t global_cutoff);
+STATIC size_t cache_clean_v3_by_downloaded_as_dir(const uint64_t target,
+                                           const size_t min_remove_bytes,
+                                           uint64_t *next_lowest);
 
 STATIC hs_cache_client_descriptor_t *
 lookup_v3_desc_as_client(const uint8_t *key);
