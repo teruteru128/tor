@@ -153,9 +153,14 @@ STATIC size_t cache_clean_v3_as_dir(time_t now, time_t global_cutoff);
 STATIC size_t cache_clean_v3_by_downloaded_as_dir(const uint64_t target,
                                            const size_t min_remove_bytes,
                                            uint64_t *next_lowest);
+STATIC hs_cache_dir_descriptor_t *lookup_v3_desc_as_dir(const uint8_t *key);
 
 STATIC hs_cache_client_descriptor_t *
 lookup_v3_desc_as_client(const uint8_t *key);
+
+#ifdef TOR_UNIT_TESTS
+void dir_set_downloaded(const ed25519_public_key_t *pk, uint64_t value);
+#endif /* TOR_UNIT_TESTS */
 
 #endif /* defined(HS_CACHE_PRIVATE) */
 

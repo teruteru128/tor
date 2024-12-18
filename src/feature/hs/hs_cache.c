@@ -68,7 +68,7 @@ store_v3_desc_as_dir(hs_cache_dir_descriptor_t *desc)
 }
 
 /** Query our cache and return the entry or NULL if not found. */
-static hs_cache_dir_descriptor_t *
+STATIC hs_cache_dir_descriptor_t *
 lookup_v3_desc_as_dir(const uint8_t *key)
 {
   tor_assert(key);
@@ -1258,3 +1258,17 @@ hs_cache_increment_allocation(size_t n)
     }
   }
 }
+
+#ifdef TOR_UNIT_TESTS
+
+/** Test only: Set the downloaded counter value of a HSDir cache entry. */
+void
+dir_set_downloaded(const ed25519_public_key_t *pk, uint64_t value)
+{
+  hs_cache_dir_descriptor_t *entry = lookup_v3_desc_as_dir(pk->pubkey);
+  if (entry) {
+    entry->n_downloaded = value;
+  }
+}
+
+#endif /* TOR_UNIT_TESTS */
