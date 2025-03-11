@@ -486,15 +486,10 @@ circuit_establish_circuit(uint8_t purpose, extend_info_t *exit_ei, int flags)
 {
   origin_circuit_t *circ;
   int err_reason = 0;
-  int is_hs_v3_rp_circuit = 0;
-
-  if (flags & CIRCLAUNCH_IS_V3_RP) {
-    is_hs_v3_rp_circuit = 1;
-  }
 
   circ = origin_circuit_init(purpose, flags);
 
-  if (onion_pick_cpath_exit(circ, exit_ei, is_hs_v3_rp_circuit) < 0 ||
+  if (onion_pick_cpath_exit(circ, exit_ei) < 0 ||
       onion_populate_cpath(circ) < 0) {
     circuit_mark_for_close(TO_CIRCUIT(circ), END_CIRC_REASON_NOPATH);
     return NULL;
@@ -535,7 +530,7 @@ circuit_establish_circuit_conflux,(const uint8_t *conflux_nonce,
   TO_CIRCUIT(circ)->conflux_pending_nonce =
     tor_memdup(conflux_nonce, DIGEST256_LEN);
 
-  if (onion_pick_cpath_exit(circ, exit_ei, 0) < 0 ||
+  if (onion_pick_cpath_exit(circ, exit_ei) < 0 ||
       onion_populate_cpath(circ) < 0) {
     circuit_mark_for_close(TO_CIRCUIT(circ), END_CIRC_REASON_NOPATH);
     return NULL;
@@ -1679,10 +1674,6 @@ choose_good_exit_server_general(router_crn_flags_t flags)
   IF_BUG_ONCE(flags & CRN_DIRECT_CONN)
     return NULL;
 
-  /* This isn't the function for picking rendezvous nodes. */
-  IF_BUG_ONCE(flags & CRN_RENDEZVOUS_V3)
-    return NULL;
-
   /* We only want exits to extend if we cannibalize the circuit.
    * But we don't require IPv6 extends yet. */
   IF_BUG_ONCE(flags & CRN_INITIATE_IPV6_EXTEND)
@@ -2121,8 +2112,7 @@ cpath_build_state_to_crn_ipv6_extend_flag(const cpath_build_state_t *state,
  *
  * Return 0 if ok, -1 if circuit should be closed. */
 STATIC int
-onion_pick_cpath_exit(origin_circuit_t *circ, extend_info_t *exit_ei,
-                      int is_hs_v3_rp_circuit)
+onion_pick_cpath_exit(origin_circuit_t *circ, extend_info_t *exit_ei)
 {
   cpath_build_state_t *state = circ->build_state;
 
@@ -2150,8 +2140,6 @@ onion_pick_cpath_exit(origin_circuit_t *circ, extend_info_t *exit_ei,
      * (Guards are always direct, middles are never direct.) */
     if (state->onehop_tunnel)
       flags |= CRN_DIRECT_CONN;
-    if (is_hs_v3_rp_circuit)
-      flags |= CRN_RENDEZVOUS_V3;
     if (state->need_conflux)
       flags |= CRN_CONFLUX;
     const node_t *node =
