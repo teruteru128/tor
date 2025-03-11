@@ -1847,14 +1847,6 @@ choose_good_exit_server_general(router_crn_flags_t flags)
   return NULL;
 }
 
-/* Pick a Rendezvous Point for our HS circuits according to <b>flags</b>. */
-static const node_t *
-pick_rendezvous_node(router_crn_flags_t flags)
-{
-  const or_options_t *options = get_options();
-  return router_choose_random_node(NULL, options->ExcludeNodes, flags);
-}
-
 /*
  * Helper function to pick a configured restricted middle node
  * (either HSLayer2Nodes or HSLayer3Nodes).
@@ -1962,9 +1954,12 @@ choose_good_exit_server(origin_circuit_t *circ,
     case CIRCUIT_PURPOSE_C_HSDIR_GET:
     case CIRCUIT_PURPOSE_S_HSDIR_POST:
     case CIRCUIT_PURPOSE_HS_VANGUARDS:
+    case CIRCUIT_PURPOSE_C_ESTABLISH_REND:
       /* For these three, we want to pick the exit like a middle hop,
        * since it should be random. */
       tor_assert_nonfatal(is_internal);
+      /* We want to avoid picking certain nodes for HS purposes. */
+      flags |= CRN_FOR_HS;
       FALLTHROUGH;
     case CIRCUIT_PURPOSE_CONFLUX_UNLINKED:
     case CIRCUIT_PURPOSE_C_GENERAL:
@@ -1972,14 +1967,6 @@ choose_good_exit_server(origin_circuit_t *circ,
         return router_choose_random_node(NULL, options->ExcludeNodes, flags);
       else
         return choose_good_exit_server_general(flags);
-    case CIRCUIT_PURPOSE_C_ESTABLISH_REND:
-      {
-        /* Pick a new RP */
-        const node_t *rendezvous_node = pick_rendezvous_node(flags);
-        log_info(LD_REND, "Picked new RP: %s",
-                 safe_str_client(node_describe(rendezvous_node)));
-        return rendezvous_node;
-      }
   }
   log_warn(LD_BUG,"Unhandled purpose %d", TO_CIRCUIT(circ)->purpose);
   tor_fragile_assert();
