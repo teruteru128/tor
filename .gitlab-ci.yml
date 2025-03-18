@@ -124,7 +124,7 @@ variables:
 # Minimal check on debian: just make, make check.
 #
 debian-minimal:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   script:
     - ./scripts/ci/ci-driver.sh
@@ -135,7 +135,7 @@ debian-i386-minimal:
   # TODO: Use a TPA-maintained image when there is one.
   # See https://gitlab.torproject.org/tpo/tpa/base-images/-/issues/3
   image:
-    name: i386/debian:bullseye
+    name: i386/debian:bookworm
     docker:
       platform: linux/386
   <<: *debian-template
@@ -148,7 +148,7 @@ debian-i386-minimal:
 #
 # TODO: This will be faster once we merge #40098 and #40099.
 debian-hardened:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     ALL_BUGS_ARE_FATAL: "yes"
@@ -160,7 +160,7 @@ debian-hardened:
 #####
 # Distcheck on debian stable
 debian-distcheck:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     DISTCHECK: "yes"
@@ -171,7 +171,7 @@ debian-distcheck:
 #####
 # Documentation tests on debian stable: doxygen and asciidoc.
 debian-docs:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     DOXYGEN: "yes"
@@ -189,7 +189,7 @@ debian-docs:
 #       with the 'artifacts' mechanism, in theory, but it would be good to
 #       avoid having to have a system with hundreds of artifacts.
 debian-integration:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     CHECK: "no"
@@ -203,7 +203,7 @@ debian-integration:
 #####
 # Tracing build on Debian stable.
 debian-tracing:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     TRACING: "yes"
@@ -215,7 +215,7 @@ debian-tracing:
 #####
 # No-authority mode
 debian-disable-dirauth:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     DISABLE_DIRAUTH: "yes"
@@ -225,7 +225,7 @@ debian-disable-dirauth:
 #####
 # No-relay mode
 debian-disable-relay:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     DISABLE_RELAY: "yes"
@@ -235,7 +235,7 @@ debian-disable-relay:
 #####
 # GPL licensed mode, enables pow module
 debian-gpl:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     GPL: "yes"
@@ -245,7 +245,7 @@ debian-gpl:
 #####
 # NSS check on debian
 debian-nss:
-  image: containers.torproject.org/tpo/tpa/base-images/debian:bullseye
+  image: containers.torproject.org/tpo/tpa/base-images/debian:bookworm
   <<: *debian-template
   variables:
     NSS: "yes"
