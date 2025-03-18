@@ -200,6 +200,7 @@ debian-integration:
     STEM: "yes"
     ALL_BUGS_ARE_FATAL: "yes"
   script:
+    - source venv/bin/activate
     - ./scripts/ci/ci-driver.sh
 
 #####
