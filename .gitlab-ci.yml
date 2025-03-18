@@ -115,9 +115,11 @@ variables:
 
         git clone --shallow-since "$CHUTNEY_SHALLOW_SINCE" https://gitlab.torproject.org/tpo/core/chutney.git
         git -C ./chutney checkout "$CHUTNEY_COMMIT"
+
+        apt install python3-venv
         export CHUTNEY_PATH="$(pwd)/chutney"
         python3 -m venv venv
-        venv/bin/pip install --user ./chutney
+        venv/bin/pip install ./chutney
       fi
     - if [ "$TRACING" = yes ]; then apt install liblttng-ust-dev; fi
 
