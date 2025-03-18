@@ -102,6 +102,8 @@ variables:
     - if [ "$NSS" = yes ]; then apt-get install libnss3 libnss3-dev; fi
     # llvm-symbolizer for sanitizer backtrace
     - if [ "$HARDENING" = yes ]; then apt-get install llvm; fi
+    # libubsan1 for building with -fsanitize=address
+    - if [ "$HARDENING" = yes ]; then apt-get install libubsan1; fi
     # TODO: This next line should not be debian-only.
     - if [ "$STEM" = yes ]; then git clone --depth 1 https://gitlab.torproject.org/tpo/network-health/stem.git ; export STEM_PATH="$(pwd)/stem"; fi
     # TODO: This next line should not be debian-only.
