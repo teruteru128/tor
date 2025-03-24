@@ -1,3 +1,16 @@
+Changes in version 0.4.8.16 - 2025-03-24
+  This is quick second release since 0.4.8.15 due to a typo in a directory
+  authority rule file. This only affects directory authorities. Regardless,
+  upgrading to latest stable is always desired.
+
+  o Minor features (geoip data):
+    - Update the geoip files to match the IPFire Location Database, as
+      retrieved on 2025/03/24.
+
+  o Minor bugfix (dirauth):
+    - Fix typo in flag assignment approved-routers file. Fixes bug
+      41035; bugfix on 0.4.8.15
+
 Changes in version 0.4.8.15 - 2025-03-20
   This is a minor release fixing a sandbox issue for bandwidth authority and a
   conflux issue on the control port. It also has a client fix about relay flag
