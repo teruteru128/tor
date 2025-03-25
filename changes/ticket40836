@@ -6,6 +6,9 @@
       NtorV3, running as a rate-limited introduction point,
       authenticated SENDMEs, and congestion control.
       Part of ticket 40836.
+    - Directory authorities now vote to require clients to support the
+      authenticated SENDME feature, which was introduced in 0.4.1.1-alpha.
+      Part of ticket 40836.
 
   o Minor features (recommended protocols):
     - Directory authorities now vote to recommend that clients

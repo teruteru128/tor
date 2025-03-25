@@ -539,7 +539,7 @@ protover_get_recommended_relay_protocols(void)
 const char *
 protover_get_required_client_protocols(void)
 {
-  return "Cons=2 Desc=2 Link=4 Microdesc=2 Relay=2";
+  return "Cons=2 Desc=2 FlowCtrl=1 Link=4 Microdesc=2 Relay=2";
 }
 
 /** Return the required relay protocols list that directory authorities
