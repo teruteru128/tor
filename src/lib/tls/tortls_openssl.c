@@ -671,12 +671,7 @@ tor_tls_context_new(crypto_pk_t *identity, unsigned int key_lifetime,
 #if defined(SSL_CTX_set1_groups_list) || defined(HAVE_SSL_CTX_SET1_GROUPS_LIST)
   {
     const char *list;
-    if (flags & TOR_TLS_CTX_USE_ECDHE_P224)
-      list = "P-224:P-256";
-    else if (flags & TOR_TLS_CTX_USE_ECDHE_P256)
-      list = "P-256:P-224";
-    else
-      list = "P-256:P-224";
+    list = "P-256:P-224";
     int r = (int) SSL_CTX_set1_groups_list(result->ctx, list);
     if (r < 0)
       goto error;
@@ -685,13 +680,7 @@ tor_tls_context_new(crypto_pk_t *identity, unsigned int key_lifetime,
   if (! is_client) {
     int nid;
     EC_KEY *ec_key;
-    if (flags & TOR_TLS_CTX_USE_ECDHE_P224)
-      nid = NID_secp224r1;
-    else if (flags & TOR_TLS_CTX_USE_ECDHE_P256)
-      nid = NID_X9_62_prime256v1;
-    else
-      nid = NID_tor_default_ecdhe_group;
-    /* Use P-256 for ECDHE. */
+    nid = NID_tor_default_ecdhe_group;
     ec_key = EC_KEY_new_by_curve_name(nid);
     if (ec_key != NULL) /*XXXX Handle errors? */
       SSL_CTX_set_tmp_ecdh(result->ctx, ec_key);
