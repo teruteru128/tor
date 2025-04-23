@@ -713,7 +713,7 @@ tor_tls_context_new(crypto_pk_t *identity, unsigned int key_lifetime,
       }
       int r = (int) SSL_CTX_set1_groups_list(result->ctx, list);
       if (r == 1) {
-        log_info(LD_NET, "Set supported groups to %s", list);
+        log_notice(LD_NET, "Set list of supported TLS groups to: %s", list);
         success = true;
         break;
       }
