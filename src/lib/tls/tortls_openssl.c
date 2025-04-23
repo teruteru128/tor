@@ -673,7 +673,7 @@ tor_tls_context_new(crypto_pk_t *identity, unsigned int key_lifetime,
     const char *list;
     list = "P-256:P-224";
     int r = (int) SSL_CTX_set1_groups_list(result->ctx, list);
-    if (r < 0)
+    if (r == 0)
       goto error;
   }
 #else /* !(defined(SSL_CTX_set1_groups_list) || defined(HAVE_SSL_CTX_SE...)) */
