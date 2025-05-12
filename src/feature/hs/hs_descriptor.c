@@ -2119,7 +2119,6 @@ decode_pow_params(const smartlist_t *toks,
   if (!toks)
     return 0;
 
-  // XXXX reindent.
   SMARTLIST_FOREACH_BEGIN(toks, const directory_token_t *, tok) {
     tor_assert(tok->n_args >= 1);
 
@@ -2142,34 +2141,34 @@ decode_pow_params(const smartlist_t *toks,
     *pow_params_out = pow_params;
     pow_params->type = HS_POW_DESC_V1;
 
-  if (base64_decode((char *)pow_params->seed, sizeof(pow_params->seed),
-                    tok->args[1], strlen(tok->args[1])) !=
-      sizeof(pow_params->seed)) {
-    log_warn(LD_REND, "Unparseable seed %s in PoW params",
-             escaped(tok->args[1]));
-    goto done;
-  }
+    if (base64_decode((char *)pow_params->seed, sizeof(pow_params->seed),
+                      tok->args[1], strlen(tok->args[1])) !=
+        sizeof(pow_params->seed)) {
+      log_warn(LD_REND, "Unparseable seed %s in PoW params",
+               escaped(tok->args[1]));
+      goto done;
+    }
 
-  int ok;
-  unsigned long effort =
+    int ok;
+    unsigned long effort =
       tor_parse_ulong(tok->args[2], 10, 0, UINT32_MAX, &ok, NULL);
-  if (!ok) {
-    log_warn(LD_REND, "Unparseable suggested effort %s in PoW params",
-             escaped(tok->args[2]));
-    goto done;
-  }
-  pow_params->suggested_effort = (uint32_t)effort;
+    if (!ok) {
+      log_warn(LD_REND, "Unparseable suggested effort %s in PoW params",
+               escaped(tok->args[2]));
+      goto done;
+    }
+    pow_params->suggested_effort = (uint32_t)effort;
 
-  /* Parse the expiration time of the PoW params. */
-  time_t expiration_time = 0;
-  if (parse_iso_time_nospace(tok->args[3], &expiration_time)) {
-    log_warn(LD_REND, "Unparseable expiration time %s in PoW params",
-             escaped(tok->args[3]));
-    goto done;
-  }
-  /* Validation of this time is done in client_desc_has_arrived() so we can
-   * trigger a fetch if expired. */
-  pow_params->expiration_time = expiration_time;
+    /* Parse the expiration time of the PoW params. */
+    time_t expiration_time = 0;
+    if (parse_iso_time_nospace(tok->args[3], &expiration_time)) {
+      log_warn(LD_REND, "Unparseable expiration time %s in PoW params",
+               escaped(tok->args[3]));
+      goto done;
+    }
+    /* Validation of this time is done in client_desc_has_arrived() so we can
+     * trigger a fetch if expired. */
+    pow_params->expiration_time = expiration_time;
 
   } SMARTLIST_FOREACH_END(tok);
 
