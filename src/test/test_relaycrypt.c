@@ -19,11 +19,18 @@
 
 #include "test/test.h"
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
 NONSTRING static const char KEY_MATERIAL[3][CPATH_KEY_MATERIAL_LEN] = {
   "    'My public key is in this signed x509 object', said Tom assertively.",
   "'Let's chart the pedal phlanges in the tomb', said Tom cryptographically",
   "     'Segmentation fault bugs don't _just happen_', said Tom seethingly.",
 };
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 typedef struct testing_circuitset_t {
   or_circuit_t *or_circ[3];
