@@ -1141,7 +1141,8 @@ AC_CHECK_FUNCS([ \
 		SSL_get_client_ciphers \
 		SSL_get_client_random \
 		SSL_get_server_random \
-		TLS_method \
+                SSL_set_ciphersuites \
+		TLS_method
 	       ])
 
 dnl Check if OpenSSL structures are opaque
